@@ -64,3 +64,36 @@ String? validateTextAria(String? val) {
   }
   return null;
 }
+
+String? validateEmailEnglish(String? val) =>
+    val != null && AppRegex.emailRegEx.hasMatch(val.trim())
+        ? null
+        : 'Enter a valid email';
+
+String? validatePasswordEnglish(String? val) {
+  if (val == null || val.isEmpty) {
+    return 'Password cannot be empty';
+  }
+
+  if (val.length < 8) {
+    return 'Password must be at least 8 characters long';
+  }
+
+  if (!AppRegex.numRegEx.hasMatch(val.trim())) {
+    return 'Password must contain at least one number';
+  }
+
+  if (!AppRegex.letterRegEx.hasMatch(val.trim())) {
+    return 'Password must contain at least one character';
+  }
+
+  if (!AppRegex.uppercaseRegEx.hasMatch(val.trim())) {
+    return 'Password must contain at least one uppercase letter';
+  }
+
+  // if (!AppRegex.passwordRegEx.hasMatch(val)) {
+  //   return 'يجب أن تحتوي كلمة المرور على رقم واحد وحرف واحد على الأقل';
+  // }
+
+  return null; // Return null if validation passes
+}

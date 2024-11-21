@@ -16,7 +16,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # flutter_native_splash: 
   flutter_localizations:
     sdk: flutter
 
@@ -27,7 +27,7 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   # state management
-  hooks_riverpod: ^2.6.1
+  hooks_riverpod: 
   flutter_hooks: ^0.20.5
 
   # Network
@@ -71,14 +71,14 @@ dev_dependencies:
   # dart run rename_app:main all="My App Name"
 
   flutter_lints: ^5.0.0
-  flutter_native_splash: ^2.4.2
+  # flutter_native_splash: ^2.4.2
 
 flutter:
   uses-material-design: true
 
-  assets:
-    - assets/images/
-    - assets/icons/
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
 
   # fonts:
   #   - family: Schyler

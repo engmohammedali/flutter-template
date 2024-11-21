@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:template/providers/auth_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -14,6 +12,7 @@ class HomeScreen extends ConsumerWidget {
         title: Text('Home Screen'),
         actions: [
           IconButton(
+            // onPressed: () {},
             onPressed: ref.read(authNotifierProvider.notifier).logout,
             icon: Icon(Icons.logout_rounded),
           )

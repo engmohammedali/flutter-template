@@ -13,6 +13,7 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    
     // final locale = ref.watch(localProvider);
     // final localeNotifier = ref.read(localProvider.notifier);
 

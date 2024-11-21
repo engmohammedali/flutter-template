@@ -42,7 +42,8 @@ List<GoRoute> routes = [
   GoRoute(
     path: AppRoutes.login.path,
     name: AppRoutes.login.name,
-    builder: (_, __) => const LoginScreen(),
+    builder: (_, __) => LoginScreen(),
+    redirect: (context, state) {},
     routes: [
       // GoRoute(
       //   path: AppRoutes.resetPassword.path,

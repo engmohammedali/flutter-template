@@ -2,16 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:template/app.dart';
-
-import 'providers/observers.dart';
+import 'package:template/providers/observers.dart';
 
 void main() async {
   runZonedGuarded(
@@ -45,11 +42,16 @@ void main() async {
       ]);
 
       runApp(
+        // ProviderScope(
+        //   child: MaterialApp.router(
+        //     debugShowCheckedModeBanner: false,
+        //   ),
+        // ),
         ProviderScope(
           observers: [
             Observers(),
           ],
-          child: const App(),
+          child: App(),
         ),
       );
     },

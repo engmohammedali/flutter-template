@@ -1,34 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:template/features/auth/data/sherd/sherd.dart';
+import 'package:template/features/auth/pages/widgets/form_login.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'package:template/core/router/app_routes.dart';
-import 'package:template/providers/auth_provider.dart';
-
-class LoginScreen extends ConsumerWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void dispose() {
+    Sherd.controllerEmail.clear();
+    Sherd.controllerPassword.clear();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Screen'),
+      // floatingActionButton: FloatingActionButton(
+      //     onPressed: ref.read(authNotifierProvider.notifier).login,
+      //     child: Icon(Icons.add)
+      //     /*
+      //   () {
+      //       ref.read(authNotifierProvider.notifier).login();
+      //       // context.goNamed(
+      //       //   AppRoutes.home.name,
+      //       // );
+      //     },
+      //   */
+      //     ),
+
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Login',
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromRGBO(0, 0, 0, 1)),
+            ),
+            FormLogin(),
+          ],
+        ),
       ),
-      body: Center(
-        child: Text('Welcome to the Login Screen!'),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: ref.read(authNotifierProvider.notifier).login,
-          child: Icon(Icons.add)
-          /*  
-        () {
-            ref.read(authNotifierProvider.notifier).login();
-            // context.goNamed(
-            //   AppRoutes.home.name,
-            // );
-          }, 
-        */
-          ),
     );
   }
 }
