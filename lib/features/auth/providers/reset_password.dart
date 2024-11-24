@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final forgetPasswordProvider =
-    ChangeNotifierProvider((ref) => ForgetPasswordProvider());
+final resetPassword = ChangeNotifierProvider((ref) => ResetPasswordProvider());
 
-class ForgetPasswordProvider extends ChangeNotifier {
+class ResetPasswordProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool _isError = false;
   bool _isSuccess = false;
   Future<void> sendEmail() async {
     try {
       _isLoading = true;
-        notifyListeners();
+      notifyListeners();
       await Future.delayed(Duration(seconds: 5));
       _isLoading = false;
       _isSuccess = true;

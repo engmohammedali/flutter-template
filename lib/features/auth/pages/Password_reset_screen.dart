@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:template/components/loading/loading_widget.dart';
 import 'package:template/core/functions/validators.dart';
+import 'package:template/core/router/app_routes.dart';
 import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
-import 'package:template/features/auth/providers/forget_password.dart';
+import 'package:template/features/auth/providers/reset_password.dart';
 
 class PasswordResetScreen extends ConsumerStatefulWidget {
   const PasswordResetScreen({super.key});
@@ -30,7 +31,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final forgetPasswordState = ref.watch(forgetPasswordProvider);
+    final forgetPasswordState = ref.watch(resetPassword);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -109,7 +110,9 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                               color: Colors.white,
                               fontWeight: FontWeight.w400,
                             ),
-                            onPressed: () async {},
+                            onPressed: () async {
+                              await submit(forgetPasswordState);
+                            },
                           )
                   ],
                 ),
@@ -121,14 +124,17 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
     );
   }
 
-  Future submit(ForgetPasswordProvider forgetPasswordState) async {
+  Future submit(ResetPasswordProvider resetPasswordProvider) async {
     if (key.currentState!.validate()) {
-      await forgetPasswordState.sendEmail();
-      if (forgetPasswordState.isSuccess) {
+      await resetPasswordProvider.sendEmail();
+      if (resetPasswordProvider.isSuccess) {
         showSuccessSnackbar('Active email has been sent');
-      } else if (forgetPasswordState.isError) {
+        context.pop();
+      } else if (resetPasswordProvider.isError) {
         showErrorSnackbar('Unable to send email');
       }
+    } else {
+      showErrorSnackbar('enter email');
     }
   }
 }
