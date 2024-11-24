@@ -12,6 +12,7 @@ class AppTextButton extends StatelessWidget {
   final TextStyle textStyle;
   final VoidCallback onPressed;
   final Color? borderSide;
+  final FocusNode? focusNode;
   const AppTextButton({
     super.key,
     this.borderRadius,
@@ -21,6 +22,7 @@ class AppTextButton extends StatelessWidget {
     this.buttonHeight,
     this.buttonWidth,
     this.borderSide,
+    this.focusNode,
     required this.buttonText,
     required this.textStyle,
     required this.onPressed,
@@ -29,6 +31,7 @@ class AppTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      focusNode: focusNode,
       style: ButtonStyle(
         shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(

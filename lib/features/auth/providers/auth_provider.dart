@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:template/features/auth/data/models/user_model.dart';
 
-final isvisibility = StateProvider<bool>((ref) => false);
-final authLogin = ChangeNotifierProvider((ref) => loginProvider());
-// final authLogin =
-//     FutureProviderFamily<dynamic, UserModel>((ref, UserModel user) async {
-//   final rusaltUser = await loginMethod(user);
-//   return rusaltUser;
-// });
+final authLogin = ChangeNotifierProvider((ref) => LoginProvider());
 
-class loginProvider extends ChangeNotifier {
+class LoginProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool _islogin = false;
+  bool _isvisibility = false;
   bool _isError = false;
   UserModel? _userModel;
 
@@ -20,7 +15,8 @@ class loginProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-      _userModel = await loginMethod(user);
+      await Future.delayed(Duration(seconds: 5));
+      _userModel = user;
       _isLoading = false;
       _islogin = true;
       notifyListeners();
@@ -30,18 +26,14 @@ class loginProvider extends ChangeNotifier {
     }
   }
 
+  void changvisibility() {
+    _isvisibility = !_isvisibility;
+    notifyListeners();
+  }
+
   UserModel get user => _userModel!;
   bool get isLoading => _isLoading;
+  bool get isvisibility => _isvisibility;
   bool get islogin => _islogin;
   bool get isError => _isError;
-}
-
-Future<UserModel> loginMethod(UserModel user) async {
-  await Future.delayed(Duration(seconds: 5));
-  return user;
-}
-
-bool checkLoginState(WidgetRef ref) {
-  final loginState = ref.read(authLogin); // الوصول إلى الـ provider
-  return loginState.islogin;
 }

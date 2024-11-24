@@ -12,7 +12,6 @@ class HomeScreen extends ConsumerWidget {
         title: Text('Home Screen'),
         actions: [
           IconButton(
-            // onPressed: () {},
             onPressed: ref.read(authNotifierProvider.notifier).logout,
             icon: Icon(Icons.logout_rounded),
           )

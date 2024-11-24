@@ -1,21 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:template/features/auth/data/sherd/sherd.dart';
 import 'package:template/features/auth/pages/widgets/form_login.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  @override
-  void dispose() {
-    Sherd.controllerEmail.clear();
-    Sherd.controllerPassword.clear();
-    super.dispose();
-  }
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

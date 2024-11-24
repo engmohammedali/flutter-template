@@ -7,41 +7,98 @@ import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/data/models/user_model.dart';
-import 'package:template/features/auth/data/sherd/sherd.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
-import 'package:template/features/home/home.dart';
 import 'package:template/providers/auth_provider.dart';
 
 class FormLogin extends StatefulWidget {
+  const FormLogin({super.key});
+
   @override
   State<FormLogin> createState() => _FormLoginState();
 }
 
 class _FormLoginState extends State<FormLogin> {
   final key = GlobalKey<FormState>();
+  final TextEditingController controllerEmail = TextEditingController();
+
+  final TextEditingController controllerPassword = TextEditingController();
+
+  final FocusNode _firstNode = FocusNode();
+  final FocusNode _secoundNode = FocusNode();
+  final FocusNode _buttonNode = FocusNode();
+  @override
+  void dispose() {
+    controllerEmail.clear();
+    controllerPassword.clear();
+    _firstNode.dispose();
+    _secoundNode.dispose();
+    _buttonNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: key,
       child: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Email",
-                  style: TextStyle(color: AppColors.ligtGrayColor),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                AppTextFormField(
-                  controller: Sherd.controllerEmail,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Email',
+                style: TextStyle(color: AppColors.ligtGrayColor),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            AppTextFormField(
+              focusNode: _firstNode,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_secoundNode);
+              },
+              controller: controllerEmail,
+              prefixIcon: Icon(
+                Icons.email,
+                color: AppColors.ligtGrayColor,
+                size: 22,
+              ),
+              backgroundColor: AppColors.white,
+              borderRadius: 16,
+              hintStyle:
+                  TextStyle(color: AppColors.ligtGrayColor, fontSize: 14),
+              hintText: 'enter email',
+              validator: validateEmailEnglish,
+              inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Password',
+                style: TextStyle(color: AppColors.ligtGrayColor),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Consumer(builder: (context, ref, child) {
+              final isvisibilityState = ref.watch(authLogin).isvisibility;
+
+              return AppTextFormField(
+                  focusNode: _secoundNode,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_buttonNode);
+                  },
+                  controller: controllerPassword,
+                  isObscureText: !isvisibilityState,
                   prefixIcon: Icon(
-                    Icons.email,
+                    Icons.lock,
                     color: AppColors.ligtGrayColor,
                     size: 22,
                   ),
@@ -49,81 +106,45 @@ class _FormLoginState extends State<FormLogin> {
                   borderRadius: 16,
                   hintStyle:
                       TextStyle(color: AppColors.ligtGrayColor, fontSize: 14),
-                  hintText: 'enter email',
-                  validator: validateEmailEnglish,
+                  hintText: '**********',
+                  validator: validatePasswordEnglish,
                   inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  "Password",
-                  style: TextStyle(color: AppColors.ligtGrayColor),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Consumer(builder: (context, ref, child) {
-                  final isvisibilityState = ref.watch(isvisibility);
-
-                  return AppTextFormField(
-                      controller: Sherd.controllerPassword,
-                      isObscureText: !isvisibilityState,
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: AppColors.ligtGrayColor,
-                        size: 22,
-                      ),
-                      backgroundColor: AppColors.white,
-                      borderRadius: 16,
-                      hintStyle: TextStyle(
-                          color: AppColors.ligtGrayColor, fontSize: 14),
-                      hintText: '**********',
-                      validator: validatePasswordEnglish,
-                      inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
-                      suffixIcon: CheckIsVisibility(
-                        isvisibilityState: isvisibilityState,
-                        ref: ref,
-                      ));
-                }),
-                SizedBox(
-                  height: 50,
-                ),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final result = ref.watch(authLogin);
-                    print(result.isLoading);
-                    if (result.isLoading) {
-                      return LoadingWidget();
-                    } else if (result.islogin) {
-                      print("Done");
-                    } else if (result.isError) {
-                      showErrorSnackbar("Error");
+                  suffixIcon: CheckIsVisibility());
+            }),
+            SizedBox(
+              height: 50,
+            ),
+            Consumer(
+              builder: (context, ref, child) {
+                final result = ref.watch(authLogin);
+                if (result.isLoading) {
+                  return LoadingWidget();
+                } else if (result.islogin) {
+                } else if (result.isError) {
+                  showErrorSnackbar('Error');
+                }
+                return AppTextButton(
+                  focusNode: _buttonNode,
+                  backgroundColor: AppColors.blueColor,
+                  buttonText: 'login',
+                  textStyle: TextStyle(color: Colors.white),
+                  onPressed: () async {
+                    if (key.currentState!.validate()) {
+                      await verification(ref);
                     }
-                    return AppTextButton(
-                      backgroundColor: AppColors.blueColor,
-                      buttonText: 'login',
-                      textStyle: TextStyle(color: Colors.white),
-                      onPressed: () async {
-                        if (key.currentState!.validate()) {
-                          await ref.read(authLogin.notifier).login(UserModel(
-                              email: Sherd.controllerEmail.text,
-                              password: Sherd.controllerPassword.text));
-                          ref.read(authNotifierProvider.notifier).login();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen()));
-                        }
-                      },
-                    );
                   },
-                )
-              ],
+                );
+              },
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> verification(WidgetRef ref) async {
+    await ref.read(authLogin.notifier).login(UserModel(
+        email: controllerEmail.text, password: controllerPassword.text));
+    ref.read(authNotifierProvider.notifier).login();
   }
 }

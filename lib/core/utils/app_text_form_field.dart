@@ -3,6 +3,8 @@ import 'package:template/core/themes/app_colors.dart';
 
 class AppTextFormField extends StatelessWidget {
   final Widget? suffix;
+
+  final FocusNode? focusNode;
   final EdgeInsetsGeometry? contentPadding;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
@@ -16,9 +18,12 @@ class AppTextFormField extends StatelessWidget {
   final double? borderRadius;
   final TextEditingController? controller;
   final String? Function(String?) validator;
+  final void Function(String)? onFieldSubmitted;
   const AppTextFormField({
     super.key,
     this.suffix,
+    this.onFieldSubmitted,
+    this.focusNode,
     this.contentPadding,
     this.focusedBorder,
     this.enabledBorder,
@@ -37,6 +42,8 @@ class AppTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: onFieldSubmitted,
+      focusNode: focusNode,
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:template/core/extensions/extensions.dart';
 import 'package:template/core/keys/keys.dart';
 import 'package:template/core/router/app_router.dart';
@@ -13,7 +11,7 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    
+
     // final locale = ref.watch(localProvider);
     // final localeNotifier = ref.read(localProvider.notifier);
 
