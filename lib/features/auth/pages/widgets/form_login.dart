@@ -7,6 +7,7 @@ import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/data/models/user_model.dart';
+import 'package:template/features/auth/pages/Password_reset_screen.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
 import 'package:template/providers/auth_provider.dart';
@@ -29,8 +30,8 @@ class _FormLoginState extends State<FormLogin> {
   final FocusNode _buttonNode = FocusNode();
   @override
   void dispose() {
-    controllerEmail.clear();
-    controllerPassword.clear();
+    controllerEmail.dispose();
+    controllerPassword.dispose();
     _firstNode.dispose();
     _secoundNode.dispose();
     _buttonNode.dispose();
@@ -112,7 +113,21 @@ class _FormLoginState extends State<FormLogin> {
                   suffixIcon: CheckIsVisibility());
             }),
             SizedBox(
-              height: 50,
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PasswordResetScreen()));
+                  },
+                  child: Text('Forgot your password?')),
+            ),
+            SizedBox(
+              height: 30,
             ),
             Consumer(
               builder: (context, ref, child) {

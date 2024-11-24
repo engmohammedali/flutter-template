@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:template/core/keys/keys.dart';
 
 // ScaffoldFeatureController<SnackBar, SnackBarClosedReason>?

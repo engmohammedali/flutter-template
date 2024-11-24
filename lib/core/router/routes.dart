@@ -1,4 +1,5 @@
 import 'package:template/core/router/app_routes.dart';
+import 'package:template/features/auth/pages/Password_reset_screen.dart';
 import 'package:template/features/auth/pages/login_screen.dart';
 import 'package:template/features/help/help_screen.dart';
 import 'package:template/features/home/home.dart';
@@ -43,18 +44,12 @@ List<GoRoute> routes = [
     path: AppRoutes.login.path,
     name: AppRoutes.login.name,
     builder: (_, __) => LoginScreen(),
-    redirect: (context, state) {},
     routes: [
-      // GoRoute(
-      //   path: AppRoutes.resetPassword.path,
-      //   name: AppRoutes.resetPassword.name,
-      //   builder: (_, __) => const PasswordResetScreen(),
-      // ),
-      // GoRoute(
-      //   path: AppRoutes.resetPasswordDone.path,
-      //   name: AppRoutes.resetPasswordDone.name,
-      //   builder: (_, __) => const PasswordResetDoneScreen(),
-      // ),
+      GoRoute(
+        path: AppRoutes.resetPassword.path,
+        name: AppRoutes.resetPassword.name,
+        builder: (_, __) => const PasswordResetScreen(),
+      ),
     ],
   ),
   GoRoute(
@@ -62,12 +57,8 @@ List<GoRoute> routes = [
     name: AppRoutes.home.name,
     builder: (_, __) => const HomeScreen(),
   ),
-  /*   
-      GoRoute(
-        path: AppRoutes.register.path,
-        name: AppRoutes.register.name,
-        builder: (_, __) => const RegisterScreen(),
-      ),
+
+  /* 
       ShellRoute(
         navigatorKey: shellNavigatorKey,
         pageBuilder: (context, state, child) {
