@@ -7,7 +7,7 @@ import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/data/models/user_model.dart';
-import 'package:template/features/auth/pages/Password_reset_screen.dart';
+import 'package:template/features/auth/pages/password_reset_screen.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
 import 'package:template/providers/auth_provider.dart';
@@ -57,6 +57,7 @@ class _FormLoginState extends State<FormLogin> {
               height: 10,
             ),
             AppTextFormField(
+              autofocus: true,
               focusNode: _firstNode,
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_secoundNode);
@@ -93,8 +94,8 @@ class _FormLoginState extends State<FormLogin> {
 
               return AppTextFormField(
                   focusNode: _secoundNode,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_buttonNode);
+                  onFieldSubmitted: (_) async {
+                    await verification(ref);
                   },
                   controller: controllerPassword,
                   isObscureText: !isvisibilityState,
@@ -144,9 +145,7 @@ class _FormLoginState extends State<FormLogin> {
                   buttonText: 'login',
                   textStyle: TextStyle(color: Colors.white),
                   onPressed: () async {
-                    if (key.currentState!.validate()) {
-                      await verification(ref);
-                    }
+                    await verification(ref);
                   },
                 );
               },
@@ -158,8 +157,10 @@ class _FormLoginState extends State<FormLogin> {
   }
 
   Future<void> verification(WidgetRef ref) async {
-    await ref.read(authLogin.notifier).login(UserModel(
-        email: controllerEmail.text, password: controllerPassword.text));
-    ref.read(authNotifierProvider.notifier).login();
+    if (key.currentState!.validate()) {
+      await ref.read(authLogin.notifier).login(UserModel(
+          email: controllerEmail.text, password: controllerPassword.text));
+      ref.read(authNotifierProvider.notifier).login();
+    }
   }
 }

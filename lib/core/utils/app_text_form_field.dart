@@ -3,8 +3,9 @@ import 'package:template/core/themes/app_colors.dart';
 
 class AppTextFormField extends StatelessWidget {
   final Widget? suffix;
-
+  final bool? autofocus;
   final FocusNode? focusNode;
+  final TextInputType? keyboardType;
   final EdgeInsetsGeometry? contentPadding;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
@@ -21,7 +22,9 @@ class AppTextFormField extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
   const AppTextFormField({
     super.key,
+    this.autofocus,
     this.suffix,
+    this.keyboardType,
     this.onFieldSubmitted,
     this.focusNode,
     this.contentPadding,
@@ -42,9 +45,11 @@ class AppTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: autofocus ?? false,
       onFieldSubmitted: onFieldSubmitted,
       focusNode: focusNode,
       validator: validator,
+      keyboardType: keyboardType ?? TextInputType.text,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       decoration: InputDecoration(

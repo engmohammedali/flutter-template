@@ -32,9 +32,12 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
   @override
   Widget build(BuildContext context) {
     final forgetPasswordState = ref.watch(resetPassword);
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
+    return Scaffold(
+      body: InkWell(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
           width: double.infinity,
           height: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 50),
@@ -88,10 +91,12 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                       height: 10,
                     ),
                     AppTextFormField(
+                      autofocus: true,
                       borderRadius: 20,
+                      keyboardType: TextInputType.emailAddress,
                       focusNode: _emailFocus,
-                      onFieldSubmitted: (_) {
-                        FocusScope.of(context).requestFocus(_buttonFocus);
+                      onFieldSubmitted: (_) async {
+                        await submit(forgetPasswordState);
                       },
                       hintText: 'enter email',
                       validator: validateEmailEnglish,
@@ -103,6 +108,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                     forgetPasswordState.isLoading
                         ? LoadingWidget()
                         : AppTextButton(
+                            focusNode: _buttonFocus,
                             backgroundColor: Color.fromRGBO(76, 181, 237, 1),
                             buttonText: 'next',
                             textStyle: TextStyle(
@@ -125,6 +131,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
   }
 
   Future submit(ResetPasswordProvider resetPasswordProvider) async {
+    FocusScope.of(context).unfocus();
     if (key.currentState!.validate()) {
       await resetPasswordProvider.sendEmail();
       if (resetPasswordProvider.isSuccess) {

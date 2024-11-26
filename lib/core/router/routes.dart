@@ -1,5 +1,5 @@
 import 'package:template/core/router/app_routes.dart';
-import 'package:template/features/auth/pages/Password_reset_screen.dart';
+import 'package:template/features/auth/pages/password_reset_screen.dart';
 import 'package:template/features/auth/pages/login_screen.dart';
 import 'package:template/features/help/help_screen.dart';
 import 'package:template/features/home/home.dart';
