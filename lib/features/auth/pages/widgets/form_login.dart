@@ -7,19 +7,18 @@ import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/data/models/user_model.dart';
-import 'package:template/features/auth/pages/password_reset_screen.dart';
+import 'package:template/features/auth/pages/register.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
-import 'package:template/providers/auth_provider.dart';
 
-class FormLogin extends StatefulWidget {
+class FormLogin extends ConsumerStatefulWidget {
   const FormLogin({super.key});
 
   @override
-  State<FormLogin> createState() => _FormLoginState();
+  ConsumerState<FormLogin> createState() => _FormLoginState();
 }
 
-class _FormLoginState extends State<FormLogin> {
+class _FormLoginState extends ConsumerState<FormLogin> {
   final key = GlobalKey<FormState>();
   final TextEditingController controllerEmail = TextEditingController();
 
@@ -39,66 +38,80 @@ class _FormLoginState extends State<FormLogin> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: key,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Email',
-                style: TextStyle(color: AppColors.ligtGrayColor),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            AppTextFormField(
-              autofocus: true,
-              focusNode: _firstNode,
-              onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_secoundNode);
-              },
-              controller: controllerEmail,
-              prefixIcon: Icon(
-                Icons.email,
-                color: AppColors.ligtGrayColor,
-                size: 22,
-              ),
-              backgroundColor: AppColors.white,
-              borderRadius: 16,
-              hintStyle:
-                  TextStyle(color: AppColors.ligtGrayColor, fontSize: 14),
-              hintText: 'enter email',
-              validator: validateEmailEnglish,
-              inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Password',
-                style: TextStyle(color: AppColors.ligtGrayColor),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Consumer(builder: (context, ref, child) {
-              final isvisibilityState = ref.watch(authLogin).isvisibility;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _firstNode.requestFocus();
+  }
 
-              return AppTextFormField(
+  @override
+  Widget build(BuildContext context) {
+    final loginState = ref.watch(authLogin);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 50),
+        child: Form(
+          key: key,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Email',
+                    style: TextStyle(color: AppColors.ligtGrayColor),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                AppTextFormField(
+                  focusNode: _firstNode,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_secoundNode);
+                  },
+                  controller: controllerEmail,
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: AppColors.ligtGrayColor,
+                    size: 22,
+                  ),
+                  backgroundColor: AppColors.white,
+                  borderRadius: 16,
+                  hintStyle:
+                      TextStyle(color: AppColors.ligtGrayColor, fontSize: 14),
+                  hintText: 'enter email',
+                  validator: validateEmailEnglish,
+                  inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: AppColors.blueColor),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Password',
+                    style: TextStyle(color: AppColors.ligtGrayColor),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                AppTextFormField(
                   focusNode: _secoundNode,
                   onFieldSubmitted: (_) async {
-                    await verification(ref);
+                    await submit(loginState);
                   },
                   controller: controllerPassword,
-                  isObscureText: !isvisibilityState,
+                  isObscureText: !loginState.isvisibility,
                   prefixIcon: Icon(
                     Icons.lock,
                     color: AppColors.ligtGrayColor,
@@ -111,56 +124,88 @@ class _FormLoginState extends State<FormLogin> {
                   hintText: '**********',
                   validator: validatePasswordEnglish,
                   inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
-                  suffixIcon: CheckIsVisibility());
-            }),
-            SizedBox(
-              height: 10,
+                  suffixIcon: CheckIsVisibility(
+                    islogin: true,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: AppColors.blueColor),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Register()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => PasswordResetScreen()));
+                      },
+                      child: Text('Forgot your password?')),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                loginState.isLoading
+                    ? LoadingWidget()
+                    : AppTextButton(
+                        focusNode: _buttonNode,
+                        backgroundColor: AppColors.blueColor,
+                        buttonText: 'login',
+                        textStyle: TextStyle(color: Colors.white),
+                        onPressed: () async {
+                          await submit(loginState);
+                        },
+                      ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Do not have an account?',
+                        style: TextStyle(fontSize: 17)),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Register()),
+                        );
+                      },
+                      child: Text('Register',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.blueColor,
+                              decoration: TextDecoration.underline)),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PasswordResetScreen()));
-                  },
-                  child: Text('Forgot your password?')),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Consumer(
-              builder: (context, ref, child) {
-                final result = ref.watch(authLogin);
-                if (result.isLoading) {
-                  return LoadingWidget();
-                } else if (result.islogin) {
-                } else if (result.isError) {
-                  showErrorSnackbar('Error');
-                }
-                return AppTextButton(
-                  focusNode: _buttonNode,
-                  backgroundColor: AppColors.blueColor,
-                  buttonText: 'login',
-                  textStyle: TextStyle(color: Colors.white),
-                  onPressed: () async {
-                    await verification(ref);
-                  },
-                );
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Future<void> verification(WidgetRef ref) async {
+  Future submit(LoginProvider loginProvider) async {
+    FocusScope.of(context).unfocus();
     if (key.currentState!.validate()) {
-      await ref.read(authLogin.notifier).login(UserModel(
+      await loginProvider.login(UserModel(
           email: controllerEmail.text, password: controllerPassword.text));
-      ref.read(authNotifierProvider.notifier).login();
+
+      if (loginProvider.islogin) {
+        showSuccessSnackbar('You are logged in');
+      }
+    } else {
+      showErrorSnackbar('Check the fields');
     }
   }
 }

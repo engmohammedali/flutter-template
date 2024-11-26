@@ -3,6 +3,7 @@ import 'package:template/core/themes/app_colors.dart';
 
 class AppTextFormField extends StatelessWidget {
   final Widget? suffix;
+  final bool? isReadOnly;
   final bool? autofocus;
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
@@ -24,6 +25,7 @@ class AppTextFormField extends StatelessWidget {
     super.key,
     this.autofocus,
     this.suffix,
+    this.isReadOnly,
     this.keyboardType,
     this.onFieldSubmitted,
     this.focusNode,
@@ -45,6 +47,7 @@ class AppTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: isReadOnly ?? false,
       autofocus: autofocus ?? false,
       onFieldSubmitted: onFieldSubmitted,
       focusNode: focusNode,

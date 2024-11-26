@@ -10,6 +10,7 @@ class LoginProvider extends ChangeNotifier {
   bool _isvisibility = false;
   bool _isError = false;
   UserModel? _userModel;
+  bool _isCheckAcceptprivacypolicy = false;
 
   Future<void> login(UserModel user) async {
     try {
@@ -28,6 +29,11 @@ class LoginProvider extends ChangeNotifier {
 
   void changvisibility() {
     _isvisibility = !_isvisibility;
+    notifyListeners();
+  }
+
+  void updateAptprivacypolicy() {
+    _isCheckAcceptprivacypolicy = !_isCheckAcceptprivacypolicy;
     notifyListeners();
   }
 

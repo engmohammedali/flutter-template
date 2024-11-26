@@ -7,26 +7,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //     onPressed: ref.read(authNotifierProvider.notifier).login,
-      //     child: Icon(Icons.add)
-      //     /*
-      //   () {
-      //       ref.read(authNotifierProvider.notifier).login();
-      //       // context.goNamed(
-      //       //   AppRoutes.home.name,
-      //       // );
-      //     },
-      //   */
-      //     ),
-
       body: Container(
         width: double.infinity,
         height: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Login',

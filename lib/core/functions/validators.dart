@@ -65,6 +65,11 @@ String? validateTextAria(String? val) {
   return null;
 }
 
+String? validateUserNameEnglish(String? val) =>
+    val != null && AppRegex.userNameRegEx.hasMatch(val.trim())
+        ? null
+        : 'Username is invalid';
+
 String? validateEmailEnglish(String? val) =>
     val != null && AppRegex.emailRegEx.hasMatch(val.trim())
         ? null

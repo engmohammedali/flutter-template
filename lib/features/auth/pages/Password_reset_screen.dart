@@ -6,6 +6,7 @@ import 'package:template/core/router/app_routes.dart';
 import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
+import 'package:template/features/auth/providers/auth_provider.dart';
 import 'package:template/features/auth/providers/reset_password.dart';
 
 class PasswordResetScreen extends ConsumerStatefulWidget {
@@ -102,9 +103,6 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                       validator: validateEmailEnglish,
                       prefixIcon: Icon(Icons.email),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
                     forgetPasswordState.isLoading
                         ? LoadingWidget()
                         : AppTextButton(
@@ -130,7 +128,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
     );
   }
 
-  Future submit(ResetPasswordProvider resetPasswordProvider) async {
+  Future submit(AuthProvider resetPasswordProvider) async {
     FocusScope.of(context).unfocus();
     if (key.currentState!.validate()) {
       await resetPasswordProvider.sendEmail();
