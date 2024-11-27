@@ -8,29 +8,35 @@ import 'package:path/path.dart' show basename;
 import 'package:template/core/themes/app_colors.dart';
 import 'package:template/features/auth/providers/register_provider.dart';
 
-class CustonImg extends ConsumerStatefulWidget {
+// class CustonImg extends ConsumerStatefulWidget {
+//   final String img;
+//   const CustonImg({super.key, required this.img});
+
+//   @override
+//   ConsumerState<CustonImg> createState() => _CustonImgState();
+// }
+
+class CustonImg extends ConsumerWidget {
   final String img;
+  CustonImg({super.key, required this.img});
 
-  const CustonImg({super.key, required this.img});
-
-  @override
-  ConsumerState<CustonImg> createState() => _CustonImgState();
-}
-
-class _CustonImgState extends ConsumerState<CustonImg> {
   String? imgName;
   Uint8List? imgPath;
-  uploadImage2Screen(ImageSource source) async {
+  uploadImage2Screen(
+      {required ImageSource source,
+      required BuildContext context,
+      required RegisterProvider registerProvider}) async {
     Navigator.pop(context);
     final XFile? pickedImg = await ImagePicker().pickImage(source: source);
     try {
       if (pickedImg != null) {
         imgPath = await pickedImg.readAsBytes();
-        ref.watch(registerProvider.notifier).uploadimgPath(imgPath);
+
         imgName = basename(pickedImg.path);
         int random = Random().nextInt(9999999);
         imgName = "$random${imgName}";
-        print(imgName);
+
+        registerProvider.uploadimgPath(imgpath: imgPath, img: imgName!);
       } else {
         print('NO img selected');
       }
@@ -39,10 +45,12 @@ class _CustonImgState extends ConsumerState<CustonImg> {
     }
   }
 
-  showmodel() {
+  showmodel(
+      {required BuildContext context,
+      required RegisterProvider registerProvider}) {
     return showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return Container(
           padding: EdgeInsets.all(15),
           height: 150,
@@ -51,7 +59,10 @@ class _CustonImgState extends ConsumerState<CustonImg> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  await uploadImage2Screen(ImageSource.camera);
+                  await uploadImage2Screen(
+                      source: ImageSource.camera,
+                      registerProvider: registerProvider,
+                      context: context);
                 },
                 child: const Row(
                   children: [
@@ -72,7 +83,10 @@ class _CustonImgState extends ConsumerState<CustonImg> {
               ),
               GestureDetector(
                 onTap: () {
-                  uploadImage2Screen(ImageSource.gallery);
+                  uploadImage2Screen(
+                      source: ImageSource.gallery,
+                      context: context,
+                      registerProvider: registerProvider);
                 },
                 child: const Row(
                   children: [
@@ -96,7 +110,7 @@ class _CustonImgState extends ConsumerState<CustonImg> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final registerState = ref.watch(registerProvider);
     return Padding(
       padding: EdgeInsetsDirectional.symmetric(vertical: 30),
@@ -109,7 +123,7 @@ class _CustonImgState extends ConsumerState<CustonImg> {
                   child: CircleAvatar(
                     backgroundColor: Color.fromARGB(255, 225, 225, 225),
                     radius: 71,
-                    backgroundImage: AssetImage(widget.img),
+                    backgroundImage: AssetImage(img),
                   ),
                 )
               : CircleAvatar(
@@ -126,7 +140,7 @@ class _CustonImgState extends ConsumerState<CustonImg> {
             top: -2,
             child: IconButton(
               onPressed: () {
-                showmodel();
+                showmodel(context: context, registerProvider: registerState);
               },
               icon: const Icon(
                 Icons.add_a_photo,

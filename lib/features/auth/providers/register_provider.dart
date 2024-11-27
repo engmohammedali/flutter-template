@@ -11,6 +11,7 @@ class RegisterProvider extends ChangeNotifier {
   bool _isvisibility = false;
   bool _isError = false;
   Uint8List? _imgPath;
+  String? _img;
   bool _isUploadImg = false;
   bool _isCheckAcceptprivacypolicy = false;
 
@@ -44,12 +45,15 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void uploadimgPath(Uint8List? imgpath) {
+  void uploadimgPath({required Uint8List? imgpath, required String img}) {
     _imgPath = imgpath;
+    _img = img;
     _isUploadImg = true;
+    print(_img);
     notifyListeners();
   }
 
+  String? get img => _img;
   bool get isLoading => _isLoading;
   bool get isvisibility => _isvisibility;
   bool get isRegister => _isRegister;
