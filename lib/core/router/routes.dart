@@ -1,6 +1,7 @@
 import 'package:template/core/router/app_routes.dart';
-import 'package:template/features/auth/pages/password_reset_screen.dart';
 import 'package:template/features/auth/pages/login_screen.dart';
+import 'package:template/features/auth/pages/password_reset_screen.dart';
+import 'package:template/features/auth/pages/register.dart';
 import 'package:template/features/help/help_screen.dart';
 import 'package:template/features/home/home.dart';
 import 'package:template/features/onboarding/onboarding_screen.dart';
@@ -10,6 +11,11 @@ import 'package:template/features/statics/privacy_policy.dart';
 import 'package:template/features/statics/terms_conditions.dart';
 
 List<GoRoute> routes = [
+  GoRoute(
+    path: AppRoutes.register.path,
+    name: AppRoutes.register.name,
+    builder: (_, __) => const Register(),
+  ),
   GoRoute(
     path: AppRoutes.splash.path,
     name: AppRoutes.splash.name,

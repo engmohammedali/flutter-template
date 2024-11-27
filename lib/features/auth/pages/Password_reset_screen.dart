@@ -6,7 +6,6 @@ import 'package:template/core/router/app_routes.dart';
 import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
-import 'package:template/features/auth/providers/auth_provider.dart';
 import 'package:template/features/auth/providers/reset_password.dart';
 
 class PasswordResetScreen extends ConsumerStatefulWidget {
@@ -34,7 +33,8 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
   Widget build(BuildContext context) {
     final forgetPasswordState = ref.watch(resetPassword);
     return Scaffold(
-      body: InkWell(
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           FocusScope.of(context).unfocus();
         },
@@ -102,6 +102,9 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                       hintText: 'enter email',
                       validator: validateEmailEnglish,
                       prefixIcon: Icon(Icons.email),
+                    ),
+                    SizedBox(
+                      height: 50,
                     ),
                     forgetPasswordState.isLoading
                         ? LoadingWidget()

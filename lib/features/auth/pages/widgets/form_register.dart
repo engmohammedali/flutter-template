@@ -160,6 +160,10 @@ class _FormLoginState extends ConsumerState<FormRegister> {
                 height: 10,
               ),
               PhoneNumberInput(
+                onFieldSubmitted: (_){
+                  FocusScope.of(context)
+                      .requestFocus(_passwordFocusNode);
+                },
                 controllerPhone: controllerPhone,
                 focusNode: _phoneFocusNode,
               ),

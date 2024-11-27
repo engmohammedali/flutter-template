@@ -7,6 +7,7 @@ import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/data/models/user_model.dart';
+import 'package:template/features/auth/pages/password_reset_screen.dart';
 import 'package:template/features/auth/pages/register.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
@@ -139,14 +140,11 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                       onPressed: () {
+                        // context.pushNamed(AppRoutes.resetPassword.name);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Register()));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => PasswordResetScreen()));
+                                builder: (context) => PasswordResetScreen()));
                       },
                       child: Text('Forgot your password?')),
                 ),
@@ -174,6 +172,7 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                         style: TextStyle(fontSize: 17)),
                     InkWell(
                       onTap: () {
+                        // context.pushNamed(AppRoutes.register.name);
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Register()),
