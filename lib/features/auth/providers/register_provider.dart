@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -8,7 +10,8 @@ class RegisterProvider extends ChangeNotifier {
   bool _isRegister = false;
   bool _isvisibility = false;
   bool _isError = false;
-
+  Uint8List? _imgPath;
+  bool _isUploadImg = false;
   bool _isCheckAcceptprivacypolicy = false;
 
   Future<void> register() async {
@@ -41,9 +44,17 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void uploadimgPath(Uint8List? imgpath) {
+    _imgPath = imgpath;
+    _isUploadImg = true;
+    notifyListeners();
+  }
+
   bool get isLoading => _isLoading;
   bool get isvisibility => _isvisibility;
   bool get isRegister => _isRegister;
   bool get isError => _isError;
   bool get isCheckAcceptprivacypolicy => _isCheckAcceptprivacypolicy;
+  bool get isUploadImg => _isUploadImg;
+  Uint8List? get imgPath => _imgPath;
 }

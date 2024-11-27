@@ -8,6 +8,7 @@ import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/pages/widgets/custom_chech_box.dart';
+import 'package:template/features/auth/pages/widgets/custon_img.dart';
 import 'package:template/features/auth/pages/widgets/phone_number_input.dart';
 import 'package:template/features/auth/providers/register_provider.dart';
 
@@ -34,8 +35,6 @@ class _FormLoginState extends ConsumerState<FormRegister> {
   final FocusNode _passwordConfrimFocusNode = FocusNode();
   final FocusNode _buttonNode = FocusNode();
 
-  bool isCheck = false;
-
   @override
   void dispose() {
     controllerEmail.dispose();
@@ -54,7 +53,6 @@ class _FormLoginState extends ConsumerState<FormRegister> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _userNameFocusNode.requestFocus();
@@ -75,6 +73,9 @@ class _FormLoginState extends ConsumerState<FormRegister> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              CustonImg(
+                img: 'assets/imgs/avatar.png',
+              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -160,9 +161,8 @@ class _FormLoginState extends ConsumerState<FormRegister> {
                 height: 10,
               ),
               PhoneNumberInput(
-                onFieldSubmitted: (_){
-                  FocusScope.of(context)
-                      .requestFocus(_passwordFocusNode);
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).requestFocus(_passwordFocusNode);
                 },
                 controllerPhone: controllerPhone,
                 focusNode: _phoneFocusNode,
@@ -277,7 +277,7 @@ class _FormLoginState extends ConsumerState<FormRegister> {
 
   Future submit(RegisterProvider registerProvider) async {
     FocusScope.of(context).unfocus();
-    if (key.currentState!.validate()) {
+    if (key.currentState!.validate() && registerProvider.isUploadImg) {
       if (registerProvider.passwordverification(
           controllerPassword.text, controllerConfirmPassword.text)) {
         if (registerProvider.isCheckAcceptprivacypolicy) {
@@ -295,49 +295,7 @@ class _FormLoginState extends ConsumerState<FormRegister> {
         showErrorSnackbar('The password is not equal');
       }
     } else {
-      showErrorSnackbar('Check the fields');
+      showErrorSnackbar('Make sure you enter an image');
     }
   }
 }
-
-
-
-
-
-
-            // Consumer(builder: (context, ref, child) {
-              //   final isvisibilityState = ref.watch(authLogin).isvisibility;
-
-              //   return AppTextFormField(
-              //       focusNode: _phoneFocusNode,
-              //       onFieldSubmitted: (_) async {},
-              //       controller: controllerPassword,
-              //       isObscureText: !isvisibilityState,
-              //       prefixIcon: Icon(
-              //         Icons.lock,
-              //         color: AppColors.ligtGrayColor,
-              //         size: 22,
-              //       ),
-              //       backgroundColor: AppColors.white,
-              //       borderRadius: 16,
-              //       hintStyle:
-              //           TextStyle(color: AppColors.ligtGrayColor, fontSize: 14),
-              //       hintText: '**********',
-              //       validator: validatePasswordEnglish,
-              //       inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
-              //       suffixIcon: CheckIsVisibility());
-              // }),
-              // SizedBox(
-              //   height: 10,
-              // ),
-              // Align(
-              //   alignment: Alignment.centerRight,
-              //   child: TextButton(
-              //       onPressed: () {
-              //         Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //                 builder: (context) => PasswordResetScreen()));
-              //       },
-              //       child: Text('Forgot your password?')),
-              // ),
