@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:template/components/loading/loading_widget.dart';
@@ -8,7 +10,7 @@ import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/pages/widgets/custom_chech_box.dart';
-import 'package:template/features/auth/pages/widgets/custon_img.dart';
+import 'package:template/features/auth/pages/widgets/custon_img_picker.dart';
 import 'package:template/features/auth/pages/widgets/phone_number_input.dart';
 import 'package:template/features/auth/providers/register_provider.dart';
 
@@ -33,8 +35,9 @@ class _FormLoginState extends ConsumerState<FormRegister> {
 
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _passwordConfrimFocusNode = FocusNode();
-  final FocusNode _buttonNode = FocusNode();
 
+  Uint8List? _imgData;
+  String? _imgName;
   @override
   void dispose() {
     controllerEmail.dispose();
@@ -47,7 +50,7 @@ class _FormLoginState extends ConsumerState<FormRegister> {
     _userNameFocusNode.dispose();
     _passwordConfrimFocusNode.dispose();
     _passwordFocusNode.dispose();
-    _buttonNode.dispose();
+
     super.dispose();
   }
 
@@ -75,6 +78,11 @@ class _FormLoginState extends ConsumerState<FormRegister> {
             children: [
               CustonImg(
                 img: 'assets/imgs/avatar.png',
+                getImgData: (imgData, imgName) {
+                  _imgData = imgData;
+                  _imgName = imgName;
+                  print(imgName);
+                },
               ),
               Align(
                 alignment: Alignment.centerLeft,
@@ -260,7 +268,6 @@ class _FormLoginState extends ConsumerState<FormRegister> {
               registerState.isLoading
                   ? LoadingWidget()
                   : AppTextButton(
-                      focusNode: _buttonNode,
                       backgroundColor: AppColors.blueColor,
                       buttonText: 'Register',
                       textStyle: TextStyle(color: Colors.white),
@@ -277,25 +284,35 @@ class _FormLoginState extends ConsumerState<FormRegister> {
 
   Future submit(RegisterProvider registerProvider) async {
     FocusScope.of(context).unfocus();
-    if (key.currentState!.validate() && registerProvider.isUploadImg) {
-      if (registerProvider.passwordverification(
-          controllerPassword.text, controllerConfirmPassword.text)) {
-        if (registerProvider.isCheckAcceptprivacypolicy) {
-          await registerProvider.register();
-          if (registerProvider.isRegister) {
-            showSuccessSnackbar('The operation was completed successfully');
-            Navigator.pop(context);
-          }
-        } else if (registerProvider.isError) {
-          showErrorSnackbar('error');
-        } else {
-          showErrorSnackbar('She did not agree Accept privacy policy ');
-        }
-      } else {
-        showErrorSnackbar('The password is not equal');
-      }
+    if (key.currentState!.validate() && _imgData != null) {
+      await chechFeilds(registerProvider);
     } else {
       showErrorSnackbar('Make sure you enter an image');
+    }
+  }
+
+  Future<void> chechFeilds(RegisterProvider registerProvider) async {
+    if (registerProvider.passwordverification(
+        controllerPassword.text, controllerConfirmPassword.text)) {
+      await checkIsAccetPrivacypolicy(registerProvider);
+    } else {
+      showErrorSnackbar('The password is not equal');
+    }
+  }
+
+  Future<void> checkIsAccetPrivacypolicy(
+      RegisterProvider registerProvider) async {
+    if (registerProvider.isCheckAcceptprivacypolicy) {
+      await registerProvider.register();
+
+      if (registerProvider.isRegister) {
+        showSuccessSnackbar('The operation was completed successfully');
+        Navigator.pop(context);
+      }
+    } else if (registerProvider.isError) {
+      showErrorSnackbar('error');
+    } else {
+      showErrorSnackbar('She did not agree Accept privacy policy ');
     }
   }
 }

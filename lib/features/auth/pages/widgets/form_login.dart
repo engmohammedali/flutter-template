@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:template/components/loading/loading_widget.dart';
@@ -9,6 +7,7 @@ import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/data/models/user_model.dart';
+import 'package:template/features/auth/pages/password_reset_screen.dart';
 import 'package:template/features/auth/pages/register.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
@@ -29,8 +28,6 @@ class _FormLoginState extends ConsumerState<FormLogin> {
 
   final FocusNode _firstNode = FocusNode();
   final FocusNode _secoundNode = FocusNode();
-  final FocusNode _buttonNode = FocusNode();
-
 
   @override
   void dispose() {
@@ -38,7 +35,6 @@ class _FormLoginState extends ConsumerState<FormLogin> {
     controllerPassword.dispose();
     _firstNode.dispose();
     _secoundNode.dispose();
-    _buttonNode.dispose();
     super.dispose();
   }
 
@@ -132,32 +128,31 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                     islogin: true,
                   ),
                   focusedBorder: OutlineInputBorder(
-                      // borderRadius: BorderRadius.circular(16),
-                      // borderSide: BorderSide(color: AppColors.blueColor),
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide(color: AppColors.blueColor),
                       ),
                 ),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                // Align(
-                //   alignment: Alignment.centerRight,
-                //   child: TextButton(
-                //       onPressed: () {
-                //         // context.pushNamed(AppRoutes.resetPassword.name);
-                //         Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) => PasswordResetScreen()));
-                //       },
-                //       child: Text('Forgot your password?')),
-                // ),
+                SizedBox(
+                  height: 10,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                      onPressed: () {
+                        // context.pushNamed(AppRoutes.resetPassword.name);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PasswordResetScreen()));
+                      },
+                      child: Text('Forgot your password?')),
+                ),
                 SizedBox(
                   height: 30,
                 ),
                 loginState.isLoading
                     ? LoadingWidget()
                     : AppTextButton(
-                        focusNode: _buttonNode,
                         backgroundColor: AppColors.blueColor,
                         buttonText: 'login',
                         textStyle: TextStyle(color: Colors.white),

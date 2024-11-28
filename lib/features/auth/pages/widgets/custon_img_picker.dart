@@ -2,41 +2,43 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' show basename;
 import 'package:template/core/themes/app_colors.dart';
-import 'package:template/features/auth/providers/register_provider.dart';
 
-// class CustonImg extends ConsumerStatefulWidget {
-//   final String img;
-//   const CustonImg({super.key, required this.img});
-
-//   @override
-//   ConsumerState<CustonImg> createState() => _CustonImgState();
-// }
-
-class CustonImg extends ConsumerWidget {
+class CustonImg extends StatefulWidget {
   final String img;
-  CustonImg({super.key, required this.img});
+  final void Function(Uint8List? imgData, String? imgName) getImgData;
+  const CustonImg({super.key, required this.img, required this.getImgData});
+
+  @override
+  State<CustonImg> createState() => _CustonImgState();
+}
+
+class _CustonImgState extends State<CustonImg> {
+  bool isUploadImg = false;
 
   String? imgName;
-  Uint8List? imgPath;
-  uploadImage2Screen(
-      {required ImageSource source,
-      required BuildContext context,
-      required RegisterProvider registerProvider}) async {
+
+  Uint8List? imgData;
+
+  uploadImage2Screen({
+    required ImageSource source,
+    required BuildContext context,
+  }) async {
     Navigator.pop(context);
     final XFile? pickedImg = await ImagePicker().pickImage(source: source);
+
     try {
       if (pickedImg != null) {
-        imgPath = await pickedImg.readAsBytes();
-
+        imgData = await pickedImg.readAsBytes();
         imgName = basename(pickedImg.path);
         int random = Random().nextInt(9999999);
-        imgName = "$random${imgName}";
-
-        registerProvider.uploadimgPath(imgpath: imgPath, img: imgName!);
+        imgName = "$random$imgName";
+        setState(() {
+          isUploadImg = true;
+          widget.getImgData(imgData, imgName);
+        });
       } else {
         print('NO img selected');
       }
@@ -45,9 +47,9 @@ class CustonImg extends ConsumerWidget {
     }
   }
 
-  showmodel(
-      {required BuildContext context,
-      required RegisterProvider registerProvider}) {
+  showmodel({
+    required BuildContext context,
+  }) {
     return showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -60,9 +62,7 @@ class CustonImg extends ConsumerWidget {
               GestureDetector(
                 onTap: () async {
                   await uploadImage2Screen(
-                      source: ImageSource.camera,
-                      registerProvider: registerProvider,
-                      context: context);
+                      source: ImageSource.camera, context: context);
                 },
                 child: const Row(
                   children: [
@@ -84,9 +84,9 @@ class CustonImg extends ConsumerWidget {
               GestureDetector(
                 onTap: () {
                   uploadImage2Screen(
-                      source: ImageSource.gallery,
-                      context: context,
-                      registerProvider: registerProvider);
+                    source: ImageSource.gallery,
+                    context: context,
+                  );
                 },
                 child: const Row(
                   children: [
@@ -110,20 +110,19 @@ class CustonImg extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final registerState = ref.watch(registerProvider);
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.symmetric(vertical: 30),
       child: Stack(
         children: [
-          !registerState.isUploadImg
+          !isUploadImg
               ? CircleAvatar(
                   radius: 73,
                   backgroundColor: AppColors.blueColor,
                   child: CircleAvatar(
                     backgroundColor: Color.fromARGB(255, 225, 225, 225),
                     radius: 71,
-                    backgroundImage: AssetImage(img),
+                    backgroundImage: AssetImage(widget.img),
                   ),
                 )
               : CircleAvatar(
@@ -132,21 +131,24 @@ class CustonImg extends ConsumerWidget {
                   child: CircleAvatar(
                     backgroundColor: Color.fromARGB(255, 225, 225, 225),
                     radius: 71,
-                    backgroundImage: MemoryImage(registerState.imgPath!),
+                    backgroundImage: MemoryImage(imgData!),
                   ),
                 ),
           Positioned(
-            right: -8,
-            top: -2,
+            right: 0,
+            bottom: 0,
             child: IconButton(
               onPressed: () {
-                showmodel(context: context, registerProvider: registerState);
+                showmodel(context: context);
               },
-              icon: const Icon(
-                Icons.add_a_photo,
-                size: 20,
+              icon: CircleAvatar(
+                radius: 10,
+                backgroundColor: Colors.white,
+                child: const Icon(
+                  Icons.add_a_photo,
+                  size: 18,
+                ),
               ),
-              color: AppColors.ligtGrayColor,
             ),
           ),
         ],

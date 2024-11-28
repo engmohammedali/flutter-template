@@ -19,12 +19,11 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
   final TextEditingController email = TextEditingController();
 
   final FocusNode _emailFocus = FocusNode();
-  final FocusNode _buttonFocus = FocusNode();
   final key = GlobalKey<FormState>();
   @override
   void dispose() {
     _emailFocus.dispose();
-    _buttonFocus.dispose();
+
     email.dispose();
     super.dispose();
   }
@@ -109,7 +108,6 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                     forgetPasswordState.isLoading
                         ? LoadingWidget()
                         : AppTextButton(
-                            focusNode: _buttonFocus,
                             backgroundColor: Color.fromRGBO(76, 181, 237, 1),
                             buttonText: 'next',
                             textStyle: TextStyle(
