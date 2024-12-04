@@ -5,8 +5,10 @@ import 'package:template/core/functions/validators.dart';
 import 'package:template/core/router/app_routes.dart';
 import 'package:template/core/utils/app_text_button.dart';
 import 'package:template/core/utils/app_text_form_field.dart';
+import 'package:template/core/utils/list_countires.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/providers/reset_password.dart';
+import 'package:template/generated/l10n.dart';
 
 class PasswordResetScreen extends ConsumerStatefulWidget {
   const PasswordResetScreen({super.key});
@@ -32,6 +34,12 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
   Widget build(BuildContext context) {
     final forgetPasswordState = ref.watch(resetPassword);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        actions: [
+          ListCountires(),
+        ],
+      ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -49,7 +57,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'I forgot my password',
+                    S.of(context).forgot_your_password,
                     style: const TextStyle(
                       fontSize: 24,
                       color: Color.fromRGBO(0, 0, 0, 1),
@@ -60,14 +68,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Please enter your email address',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    'To send a verification code',
+                    S.of(context).Please_enter_your_email_address,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -81,7 +82,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Email',
+                      S.of(context).email,
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -98,7 +99,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                       onFieldSubmitted: (_) async {
                         await submit(forgetPasswordState);
                       },
-                      hintText: 'enter email',
+                      hintText: S.of(context).enter_email,
                       validator: validateEmailEnglish,
                       prefixIcon: Icon(Icons.email),
                     ),
@@ -109,7 +110,7 @@ class _ForgetPasswordState extends ConsumerState<PasswordResetScreen> {
                         ? LoadingWidget()
                         : AppTextButton(
                             backgroundColor: Color.fromRGBO(76, 181, 237, 1),
-                            buttonText: 'next',
+                            buttonText: S.of(context).next,
                             textStyle: TextStyle(
                               fontSize: 18,
                               color: Colors.white,

@@ -15,19 +15,16 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
-    sdk: flutter
+    sdk: flutter  
   # flutter_native_splash: 
-  flutter_localizations:
-    sdk: flutter
-
   intl: ^0.19.0
   intl_utils: ^2.8.7
-  
+
   # UI
   cupertino_icons: ^1.0.8
 
   # state management
-  hooks_riverpod: 
+  hooks_riverpod: null
   flutter_hooks: ^0.20.5
 
   # Network
@@ -61,8 +58,9 @@ dependencies:
   firebase_messaging: ^15.1.5
   firebase_analytics: ^11.3.5
   firebase_crashlytics: ^4.1.5
-  flutter_local_notifications: ^18.0.1
   intl_phone_number_input: ^0.7.4
+  flutter_localization: ^0.2.2
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +68,6 @@ dev_dependencies:
 
   rename_app: ^1.6.1
   # dart run rename_app:main all="My App Name"
-
   flutter_lints: ^5.0.0
   # flutter_native_splash: ^2.4.2
 
@@ -90,3 +87,5 @@ flutter:
   #       - asset: assets/fonts/TrajanPro.ttf
   #       - asset: assets/fonts/TrajanPro_Bold.ttf
   #         weight: 700
+flutter_intl:
+  enabled: true

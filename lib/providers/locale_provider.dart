@@ -1,15 +1,12 @@
 // import 'package:flutter/material.dart';
 
 // import 'package:hooks_riverpod/hooks_riverpod.dart';
+// import 'package:template/services/local_storage/storage_service.dart';
 
-// import 'package:dars_app/core/constants/keys.dart';
-// import 'package:dars_app/di.dart';
-// import 'package:dars_app/providers/auth_provider.dart';
-// import 'package:dars_app/services/storage/storage_service.dart';
 
 // const defaultLocale = Locale('ar', '');
 
-// final storageService = locator<StorageService>();
+// // final storageService = locator<StorageService>();
 
 // final localProvider = ChangeNotifierProvider((ref) => LocalController());
 

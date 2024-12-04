@@ -1,0 +1,28 @@
+{
+    "login":"تسجيل الدخول",
+     "email":"البريد الاكتروني",
+     "password":"كلمة المرور",
+     "forgot_your_password":"نسيت كلمة السر؟",
+     "register":"انشاء حساب",
+     "Do_not_have_an_account":"ليس لديك حساب ؟",
+     "enter_email":"ادخل البريد الاكنروني",
+    
+    
+        "next":"التالي",
+        "enter_email":"أدخل البريد الإلكتروني",
+        "Email":"Email",
+        "To_send_a_verification_code":"الرجاء إدخال عنوان البريد الإلكتروني الخاص بك",
+        "Please_enter_your_email_address":"الرجاء إدخال عنوان البريد الإلكتروني الخاص بك",
+
+
+        
+   "Register":"انشاء حساب" ,
+   "enter_username":"أدخل اسم المستخدم",
+   "Confirm_Password":"تأكيد كلمة المرور",
+   "Password":"كلمة المرور",
+   "Phone":"هاتف",
+  "Username":"اسم المستخدم",
+  "Accept_privacy_policy":"قبول سياسة الخصوصية"
+    
+
+}

@@ -11,6 +11,7 @@ import 'package:template/features/auth/pages/password_reset_screen.dart';
 import 'package:template/features/auth/pages/register.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
+import 'package:template/generated/l10n.dart';
 
 class FormLogin extends ConsumerStatefulWidget {
   const FormLogin({super.key});
@@ -58,13 +59,11 @@ class _FormLoginState extends ConsumerState<FormLogin> {
           key: key,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Email',
-                    style: TextStyle(color: AppColors.ligtGrayColor),
-                  ),
+                Text(
+                  S.of(context).email,
+                  style: TextStyle(color: AppColors.ligtGrayColor),
                 ),
                 SizedBox(
                   height: 10,
@@ -84,7 +83,7 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                   borderRadius: 16,
                   hintStyle:
                       TextStyle(color: AppColors.ligtGrayColor, fontSize: 14),
-                  hintText: 'enter email',
+                  hintText: S.of(context).enter_email,
                   validator: validateEmailEnglish,
                   inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
                   focusedBorder: OutlineInputBorder(
@@ -95,12 +94,9 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                 SizedBox(
                   height: 10,
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Password',
-                    style: TextStyle(color: AppColors.ligtGrayColor),
-                  ),
+                Text(
+                  S.of(context).password,
+                  style: TextStyle(color: AppColors.ligtGrayColor),
                 ),
                 SizedBox(
                   height: 10,
@@ -128,9 +124,9 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                     islogin: true,
                   ),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: AppColors.blueColor),
-                      ),
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: AppColors.blueColor),
+                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -145,7 +141,7 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                             MaterialPageRoute(
                                 builder: (context) => PasswordResetScreen()));
                       },
-                      child: Text('Forgot your password?')),
+                      child: Text(S.of(context).forgot_your_password)),
                 ),
                 SizedBox(
                   height: 30,
@@ -154,7 +150,7 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                     ? LoadingWidget()
                     : AppTextButton(
                         backgroundColor: AppColors.blueColor,
-                        buttonText: 'login',
+                        buttonText: S.of(context).login,
                         textStyle: TextStyle(color: Colors.white),
                         onPressed: () async {
                           await submit(loginState);
@@ -166,7 +162,7 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Do not have an account?',
+                    Text(S.of(context).Do_not_have_an_account,
                         style: TextStyle(fontSize: 17)),
                     InkWell(
                       onTap: () {
@@ -176,7 +172,7 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                           MaterialPageRoute(builder: (context) => Register()),
                         );
                       },
-                      child: Text('Register',
+                      child: Text(S.of(context).register,
                           style: TextStyle(
                               fontSize: 16,
                               color: AppColors.blueColor,

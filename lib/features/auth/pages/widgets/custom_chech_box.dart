@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomChechBox extends StatelessWidget {
@@ -19,6 +20,7 @@ class CustomChechBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           InkWell(
             onTap: onTap,
@@ -38,7 +40,7 @@ class CustomChechBox extends StatelessWidget {
             onPressed: () async {
               _launchURL('https://flutter.dev');
             },
-            child: Text('Accept privacy policy'),
+            child: Text(S.of(context).Accept_privacy_policy),
           ),
         ],
       ),

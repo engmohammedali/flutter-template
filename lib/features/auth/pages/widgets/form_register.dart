@@ -13,6 +13,7 @@ import 'package:template/features/auth/pages/widgets/custom_chech_box.dart';
 import 'package:template/features/auth/pages/widgets/custon_img_picker.dart';
 import 'package:template/features/auth/pages/widgets/phone_number_input.dart';
 import 'package:template/features/auth/providers/register_provider.dart';
+import 'package:template/generated/l10n.dart';
 
 class FormRegister extends ConsumerStatefulWidget {
   const FormRegister({super.key});
@@ -75,21 +76,22 @@ class _FormLoginState extends ConsumerState<FormRegister> {
           key: key,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustonImg(
-                img: 'assets/imgs/avatar.png',
-                getImgData: (imgData, imgName) {
-                  _imgData = imgData;
-                  _imgName = imgName;
-                  print(imgName);
-                },
-              ),
               Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Username',
-                  style: TextStyle(color: AppColors.ligtGrayColor),
+                alignment: Alignment.center,
+                child: CustonImg(
+                  img: 'assets/imgs/avatar.png',
+                  getImgData: (imgData, imgName) {
+                    _imgData = imgData;
+                    _imgName = imgName;
+                    print(imgName);
+                  },
                 ),
+              ),
+              Text(
+                S.of(context).Username,
+                style: TextStyle(color: AppColors.ligtGrayColor),
               ),
               SizedBox(
                 height: 10,
@@ -110,7 +112,7 @@ class _FormLoginState extends ConsumerState<FormRegister> {
                 borderRadius: 16,
                 hintStyle:
                     TextStyle(color: AppColors.ligtGrayColor, fontSize: 14),
-                hintText: 'enter username',
+                hintText: S.of(context).enter_username,
                 validator: validateUserNameEnglish,
                 inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
                 focusedBorder: OutlineInputBorder(
@@ -121,12 +123,9 @@ class _FormLoginState extends ConsumerState<FormRegister> {
               SizedBox(
                 height: 10,
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Email',
-                  style: TextStyle(color: AppColors.ligtGrayColor),
-                ),
+              Text(
+                S.of(context).email,
+                style: TextStyle(color: AppColors.ligtGrayColor),
               ),
               SizedBox(
                 height: 10,
@@ -147,7 +146,7 @@ class _FormLoginState extends ConsumerState<FormRegister> {
                 borderRadius: 16,
                 hintStyle:
                     TextStyle(color: AppColors.ligtGrayColor, fontSize: 14),
-                hintText: 'enter email',
+                hintText: S.of(context).enter_email,
                 validator: validateEmailEnglish,
                 inputTextStyle: TextStyle(color: AppColors.ligtGrayColor),
                 focusedBorder: OutlineInputBorder(
@@ -158,12 +157,9 @@ class _FormLoginState extends ConsumerState<FormRegister> {
               SizedBox(
                 height: 10,
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Phone',
-                  style: TextStyle(color: AppColors.ligtGrayColor),
-                ),
+              Text(
+                S.of(context).Phone,
+                style: TextStyle(color: AppColors.ligtGrayColor),
               ),
               SizedBox(
                 height: 10,
@@ -178,12 +174,9 @@ class _FormLoginState extends ConsumerState<FormRegister> {
               SizedBox(
                 height: 10,
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Password',
-                  style: TextStyle(color: AppColors.ligtGrayColor),
-                ),
+              Text(
+                S.of(context).password,
+                style: TextStyle(color: AppColors.ligtGrayColor),
               ),
               SizedBox(
                 height: 10,
@@ -219,12 +212,9 @@ class _FormLoginState extends ConsumerState<FormRegister> {
               SizedBox(
                 height: 10,
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Confirm Password',
-                  style: TextStyle(color: AppColors.ligtGrayColor),
-                ),
+              Text(
+                S.of(context).Confirm_Password,
+                style: TextStyle(color: AppColors.ligtGrayColor),
               ),
               SizedBox(
                 height: 10,
@@ -269,7 +259,7 @@ class _FormLoginState extends ConsumerState<FormRegister> {
                   ? LoadingWidget()
                   : AppTextButton(
                       backgroundColor: AppColors.blueColor,
-                      buttonText: 'Register',
+                      buttonText: S.of(context).register,
                       textStyle: TextStyle(color: Colors.white),
                       onPressed: () async {
                         await submit(registerState);

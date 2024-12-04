@@ -1,0 +1,30 @@
+{
+    "login":"login",
+    "email":"email",
+    "password":"password",
+    "forgot_your_password":"Forgot your password?",
+    "register":"register",
+    "Do_not_have_an_account":"Do not have an account?",
+    "enter_email":"enter email",
+   
+    
+        "next":"next",
+        "enter_email":"enter email",
+        "Email":"Email",
+        "To_send_a_verification_code":"Please enter your email address",
+        "Please_enter_your_email_address":"Please enter your email address",
+
+
+
+
+
+   "Register":"Register" ,
+   "enter_username":"enter username",
+   "Confirm_Password":"Confirm Password",
+   "Password":"Password",
+   "Phone":"Phone",
+  "Username":"Username",
+  "Accept_privacy_policy":"Accept privacy policy"
+  
+    
+}
