@@ -16,7 +16,7 @@ class LocalController with ChangeNotifier {
   void _init() async {
     final languageCode = _storage.read('languageCode');
     if (languageCode.isEmpty) {
-      _locale = window.locale;
+      _locale = PlatformDispatcher.instance.locale;
       await _storage.save('languageCode', _locale.languageCode);
     } else {
       _locale = Locale(languageCode);
