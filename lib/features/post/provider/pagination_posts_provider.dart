@@ -1,7 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:template/features/post/data/logic/post.dart';
 import 'package:template/features/post/data/model/error_model.dart';
-import 'package:template/features/post/data/model/pafination.dart';
+import 'package:template/features/post/data/model/pagination.dart';
 import 'package:template/features/post/data/model/post_model.dart';
 
 // StateNotifierProvider for managing Pagination state
@@ -28,9 +29,11 @@ class PaginationPostsProvider extends StateNotifier<Pagination> {
 
       _pagePagination++;
 
-      final response = await Post.getPosts(page: _pagePagination);
+      final List<PostModel> response =
+          await Post.getPosts(page: _pagePagination);
 
-      final updatedPosts = List<PostModel>.from(state.posts)..addAll(response);
+      final List<PostModel> updatedPosts = List<PostModel>.from(state.posts)
+        ..addAll(response);
 
       state = state.copyWith(
         isLoading: false,
@@ -44,5 +47,13 @@ class PaginationPostsProvider extends StateNotifier<Pagination> {
         errorModel: ErrorModel(message: e.toString()),
       );
     }
+  }
+
+  void onRefresh(RefreshController refreshController) async {
+    state = state
+        .copyWith(isLoading: false, isError: false, hasMore: true, posts: []);
+    _pagePagination = 1;
+    await fetchPosts();
+    refreshController.refreshCompleted();
   }
 }

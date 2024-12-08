@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:template/features/post/data/model/pafination.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:template/features/post/page/widgets/list_posts_scraan.dart';
 import 'package:template/features/post/provider/pagination_posts_provider.dart';
 
 class PostScraan extends ConsumerStatefulWidget {
@@ -12,6 +13,8 @@ class PostScraan extends ConsumerStatefulWidget {
 
 class _PostScraanState extends ConsumerState<PostScraan> {
   final ScrollController _controller = ScrollController();
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -30,65 +33,40 @@ class _PostScraanState extends ConsumerState<PostScraan> {
     super.dispose();
   }
 
+  void _onRefresh() async {
+    ref
+        .watch(paginationPostsController)
+        .copyWith(isError: false, isLoading: false, hasMore: true, posts: []);
+    ref.read(paginationPostsController.notifier).onRefresh(_refreshController);
+    _refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(paginationPostsController);
 
     return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            List_Posts_Scraan(controller: _controller, state: state),
-            if (state.isError)
-              Center(
-                child: Text(state.errorModel?.message ?? 'An error occurred'),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class List_Posts_Scraan extends StatelessWidget {
-  const List_Posts_Scraan({
-    super.key,
-    required ScrollController controller,
-    required this.state,
-  }) : _controller = controller;
-
-  final ScrollController _controller;
-  final Pagination state;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        controller: _controller,
-        itemCount: state.posts.length + 1,
-        itemBuilder: (context, int index) {
-          if (index < state.posts.length) {
-            return Padding(
-              padding:
-                  EdgeInsetsDirectional.symmetric(vertical: 10, horizontal: 10),
-              child: Card(
-                child: ListTile(
-                  title: Text(state.posts[index].id.toString()),
+      body: SmartRefresher(
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        enablePullDown: true,
+        enablePullUp: true,
+        header: WaterDropHeader(),
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              List_Posts_Scraan(controller: _controller, state: state),
+              if (state.isError)
+                Center(
+                  child: Text(state.errorModel?.message ?? 'An error occurred'),
                 ),
-              ),
-            );
-          } else {
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ); 
-          }
-        },
+              if (!state.hasMore) Text('this all data')
+            ],
+          ),
+        ),
       ),
     );
   }
