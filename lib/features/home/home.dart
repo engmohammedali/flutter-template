@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:template/features/post/page/post_scraan.dart';
 import 'package:template/providers/auth_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -17,9 +18,7 @@ class HomeScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: Center(
-        child: Text('Welcome to the Home Screen!'),
-      ),
+      body: PostScraan(),
     );
   }
 }
