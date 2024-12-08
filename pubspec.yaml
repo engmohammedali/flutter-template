@@ -61,6 +61,7 @@ dependencies:
   intl_phone_number_input: ^0.7.4
   flutter_localization: ^0.2.2
   shared_preferences: ^2.3.3
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:

@@ -8,9 +8,9 @@ import 'package:template/core/utils/app_text_form_field.dart';
 import 'package:template/core/utils/snackbars.dart';
 import 'package:template/features/auth/data/models/user_model.dart';
 import 'package:template/features/auth/pages/password_reset_screen.dart';
-import 'package:template/features/auth/pages/register.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
+import 'package:template/features/post/page/post_scraan.dart';
 import 'package:template/generated/l10n.dart';
 
 class FormLogin extends ConsumerStatefulWidget {
@@ -169,7 +169,7 @@ class _FormLoginState extends ConsumerState<FormLogin> {
                         // context.pushNamed(AppRoutes.register.name);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Register()),
+                          MaterialPageRoute(builder: (context) => PostScraan()),
                         );
                       },
                       child: Text(S.of(context).register,
