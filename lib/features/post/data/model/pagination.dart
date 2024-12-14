@@ -1,4 +1,3 @@
-import 'package:pull_to_refresh_flutter3/src/smart_refresher.dart';
 import 'package:template/features/post/data/model/error_model.dart';
 import 'package:template/features/post/data/model/post_model.dart';
 
@@ -6,6 +5,7 @@ class Pagination {
   final bool isLoading;
   final bool hasMore;
   final bool isError;
+
   final List<PostModel> posts;
   final ErrorModel? errorModel;
 
@@ -32,7 +32,4 @@ class Pagination {
       isError: isError ?? this.isError,
     );
   }
-
-  onRefresh(RefreshController refreshController) {}
 }
-

@@ -11,7 +11,7 @@ import 'package:template/features/auth/pages/password_reset_screen.dart';
 import 'package:template/features/auth/pages/register.dart';
 import 'package:template/features/auth/pages/widgets/check_is_visibility.dart';
 import 'package:template/features/auth/providers/auth_provider.dart';
-import 'package:template/features/post/page/post_scraan.dart';
+import 'package:template/features/post/page/post_screen.dart';
 import 'package:template/generated/l10n.dart';
 
 class FormLogin extends ConsumerStatefulWidget {
@@ -197,7 +197,7 @@ class _FormLoginState extends ConsumerState<FormLogin> {
 
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => PostScraan()),
+        MaterialPageRoute(builder: (context) => PostScreen()),
       );
 
       if (loginProvider.islogin) {

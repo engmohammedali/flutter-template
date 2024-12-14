@@ -57,6 +57,7 @@ List<GoRoute> routes = [
         builder: (_, __) => const PasswordResetScreen(),
       ),
     ],
+    
   ),
   GoRoute(
     path: AppRoutes.home.path,

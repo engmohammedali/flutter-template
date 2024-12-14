@@ -1,17 +1,18 @@
+import 'dart:async';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:template/features/post/data/logic/post.dart';
 import 'package:template/features/post/data/model/error_model.dart';
 import 'package:template/features/post/data/model/pagination.dart';
 import 'package:template/features/post/data/model/post_model.dart';
+import 'package:template/features/post/error/exsapation/exception.dart';
 
-// StateNotifierProvider for managing Pagination state
 final paginationPostsController =
     StateNotifierProvider<PaginationPostsProvider, Pagination>(
         (ref) => PaginationPostsProvider());
 
 class PaginationPostsProvider extends StateNotifier<Pagination> {
-  int _pagePagination = 1;
+  int _maxlimt = 10;
 
   PaginationPostsProvider()
       : super(Pagination(
@@ -23,37 +24,40 @@ class PaginationPostsProvider extends StateNotifier<Pagination> {
     if (!state.hasMore || state.isLoading) {
       return;
     }
-
     try {
       state = state.copyWith(isLoading: true);
-
-      _pagePagination++;
-
-      final List<PostModel> response =
-          await Post.getPosts(page: _pagePagination);
-
+      final List<PostModel> response = await Post().getPostsFromApi(_maxlimt);
       final List<PostModel> updatedPosts = List<PostModel>.from(state.posts)
         ..addAll(response);
+      _maxlimt += 5;
 
       state = state.copyWith(
         isLoading: false,
         hasMore: response.isNotEmpty,
         posts: updatedPosts,
       );
-    } catch (e) {
+    } on ServerException catch (error) {
       state = state.copyWith(
         isLoading: false,
         isError: true,
-        errorModel: ErrorModel(message: e.toString()),
+        errorModel: ErrorModel(
+            statusCode: error.errorModel.statusCode,
+            statusMessage: error.errorModel.statusMessage),
       );
     }
   }
 
-  void onRefresh(RefreshController refreshController) async {
-    state = state
-        .copyWith(isLoading: false, isError: false, hasMore: true, posts: []);
-    _pagePagination = 1;
-    await fetchPosts();
-    refreshController.refreshCompleted();
+  Future<List<PostModel>> searchPost(String query) async {
+    List<PostModel>? response;
+    if (query.isNotEmpty) {
+      try {
+        response = await Post().searchPostFormApi(query);
+      } on ServerException catch (error) {
+        throw ErrorModel(
+            statusCode: error.errorModel.statusCode,
+            statusMessage: error.errorModel.statusMessage);
+      }
+    }
+    return response ?? [];
   }
 }

@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:template/features/post/data/model/pagination.dart';
+import 'package:template/features/post/data/model/post_model.dart';
 import 'package:template/features/post/page/details_post.dart';
 
 class List_Posts_Scraan extends StatelessWidget {
   const List_Posts_Scraan({
     super.key,
     required ScrollController controller,
-    required this.state,
+    required this.posts,
   }) : _controller = controller;
 
   final ScrollController _controller;
-  final Pagination state;
+  final List<PostModel> posts;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
         controller: _controller,
-        itemCount: state.posts.length + 1,
+        itemCount: posts.length,
         itemBuilder: (context, int index) {
-          print(state.posts.length);
-          if (index < state.posts.length) {
+          print(posts.length);
+          if (index < posts.length) {
             return Padding(
               padding:
                   EdgeInsetsDirectional.symmetric(vertical: 10, horizontal: 10),
@@ -30,27 +30,24 @@ class List_Posts_Scraan extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => DetailsPost(
-                        title: state.posts[index].title,
-                        id: state.posts[index].id,
-                        userId: state.posts[index].userId,
-                        body: state.posts[index].body,
+                        title: posts[index].title,
+                        id: posts[index].id,
+                        userId: posts[index].userId,
+                        body: posts[index].body,
                       ),
                     ),
                   );
                 },
                 child: Card(
                   child: ListTile(
-                    title: Text(state.posts[index].title),
+                    title: Text(posts[index].title),
                   ),
                 ),
               ),
             );
           } else {
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
+            return Center(
+              child: CircularProgressIndicator(),
             );
           }
         },

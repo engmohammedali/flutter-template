@@ -21,11 +21,13 @@ class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final String? Function(String?) validator;
   final void Function(String)? onFieldSubmitted;
+  final void Function(String)? onChanged;
   const AppTextFormField({
     super.key,
     this.autofocus,
     this.suffix,
     this.isReadOnly,
+    this.onChanged,
     this.keyboardType,
     this.onFieldSubmitted,
     this.focusNode,
@@ -47,6 +49,7 @@ class AppTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       readOnly: isReadOnly ?? false,
       autofocus: autofocus ?? false,
       onFieldSubmitted: onFieldSubmitted,
